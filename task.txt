@@ -1,0 +1,34 @@
+Užduotis: svečių knyga
+
+1. Per phpmyadmin susikurti lentelę "posts" su 3 laukais: id (int NOT NULL AUTO_INCREMENT PRIMARY KEY), author (VARCHAR(100) NOT NULL) ir content (TEXT NOT NULL)
+2. index.php faile sukurti formą su 2 laukais: "author" ir "content"
+2.1. Forma duomenis siunčia "POST" metodu
+2.2. Forma veda į write.php failą
+3. Sukurti klasę* "Post", kuri saugos informaciją apie kiekvieną postą (id, author ir content)
+3.1. Klasė Post turės 3 laukus: id, author ir content (taip pat kaip ir duombaze)
+4. Sukurti klasę* "PostRepository", kuri turės metodus getAll(), add($post)
+4.1. Klasės konstruktoriuje turėtų būti sukuriamas PDO objektas, kuris būtų saugomas "pdo" propertyje
+4.2. "getAll" metodas per PDO siunčia SELECT užklausą ir įrašus įmauna į klasės "Post" objektus
+4.2.1. Susikuriame tuščią masyvą, kuriame saugosime "Post" klasės objektus
+4.2.2. Kiekvienam duomenų bazės įrašui sukuriame po "Post" klasės objektą, į kurio "properčius" bus įrašyti duomenys iš duomenų bazės (id, name, content)
+4.2.3. Sukurtą "Post" klasės objektą įdedame į masyvą, kurį sukūrėmę 4.2.1 punkte
+4.3. "add($post)" metodas priima "Post" klasės objektus ($post) ir per PDO išsaugo duomenis iš $post objekto
+4.3.1. Paverčiame gautus duomenis iš "Post" klases objekto į asociatyvų masyvą (['name' => ?, 'content' => ?]), kurį paduosime PDO
+4.3.2. Paruošiame PDO užklausą INSERT, kurią naudosime į duomenų bazę įrašyti duomenim
+4.3.3. Paleidžiame užklausą naudodami duomenis iš 4.3.1 punkte sukurto masyvo, taip įrašydami duomenis į duomenų bazę
+5. write.php faile, priimame duomenis iš užklausos (iš $_POST) ir įrašome duomenis naudodami "Post" ir "PostRepository" klases
+5.1. Sukuriame naują "PostRepository" klasės objektą (su new), per kurį įrašinėsime duomenis į duomenų bazę
+5.2. Sukuriame "Post" klasės objektą, į kurio "properčius" bus įrašyti duomenys iš $_POST (name, content)
+5.3. Naudodamiesi 5.1. punkte sukurtu objektu, iškviečiame metodą add($post); čia $post yra 5.2 punkte sukurtas objektas
+5.4. Redirectinam į index.php
+6. Po forma atvaizduojame duomenų bazėje esančius įrašus
+6.1. index.php faile, sukuriame naują "PostRepository" klasės objektą
+6.2. Per 6.1. punkte sukurtą objektą, iškviečiame getAll() metodą, kuris gražins masyvą su "Post" klasės objektais
+6.3. Sukdami ciklą, išspausdiname svečių knygos įrašus
+Papildomai:
+7.1. Pasinaudojant $_GET padaryti, kad po naujo post'o rodytų sėkmės pranešimą
+7.1.1. Redirecto metu adrese pasižymime, kad redirectinam po post'o sukūrimo (pvz index.php?result=success)
+7.1.2. index.php faile tikriname, ar $_GET masyve yra index'as (raktas) result4.1.3. Jei yra, tuomet rodome sėkmės pranešimą
+7.2. Sudėti apsaugas nuo tuščių laukų 5 punkte realizuotame funkcionalume
+
+* klasės dažniausiai saugomos atskiruose failuose (pvz Post.class.php)
